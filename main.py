@@ -46,7 +46,7 @@ def generate_password(min_limit=10, max_limit=25):
 def calculate_average():
     students_heights = []
     students_weights = []
-    with open('hw.csv', 'r') as readfile:
+    with open('src/hw.csv', 'r') as readfile:
         reader = csv.reader(readfile, delimiter=',')
         for row in reader:
             if row[0].lower() == row[0].upper():
@@ -59,7 +59,7 @@ def calculate_average():
 
 @app.route('/average_with_pandas')
 def calculate_average_with_pandas():
-    data = pd.read_csv('hw.csv')
+    data = pd.read_csv('src/hw.csv')
     return f'<center><h1>The average height of all students:</h1><p>{data["Height(Inches)"].mean()}</p>' \
            f'<h1>The average weight of all students:</h1><p>{data["Weight(Pounds)"].mean()}</p></center>'
 
