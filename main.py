@@ -16,30 +16,15 @@ def generate_password(min_limit=10, max_limit=25):
     lower = string.ascii_lowercase
     digits = string.digits
     punctuation = string.punctuation.replace('<', '')
-    print(punctuation)
-    char_choice = [upper, lower, digits, punctuation]
     while len(password) < password_length:
-        password = password + (random.choice(char_choice[random.randint(0, 3)]))
-    validation = {'upper': 0,
-                  'lower': 0,
-                  'digits': 0,
-                  'punctuation': 0}
-    for char in password:
-        if upper.__contains__(char):
-            validation['upper'] += 1
-        if lower.__contains__(char):
-            validation['lower'] += 1
-        if digits.__contains__(char):
-            validation['digits'] += 1
-        if punctuation.__contains__(char):
-            validation['punctuation'] += 1
-    print(validation)
-    if 0 not in validation.values():
-        print(password)
-        return f'<center><p><h1>Your password:</h1>{password}<p></center>'
-    else:
-        print(password)
-        return generate_password(min_limit, max_limit)
+        result = [random.choice(upper), random.choice(lower), random.choice(digits), random.choice(punctuation)]
+        random.shuffle(result)
+        for i in result:
+            if len(password) < password_length:
+                password = password + i
+            else:
+                break
+    return f'<center><p><h1>Your password:</h1>{password}<p></center>'
 
 
 @app.route('/average')
@@ -49,7 +34,7 @@ def calculate_average():
     with open('src/hw.csv', 'r') as readfile:
         reader = csv.reader(readfile, delimiter=',')
         for row in reader:
-            if row[0].lower() == row[0].upper():
+            if row[0].isdigit():
                 students_heights.append(float(row[1].replace(' ', '')))
                 students_weights.append(float(row[2].replace(' ', '')))
 
