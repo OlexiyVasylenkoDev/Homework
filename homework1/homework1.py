@@ -34,9 +34,11 @@ def memory_usage_decorator(func):
         my_func = func(*args, **kwargs)
         print(f'This function takes {process.memory_info()[0] - memory_before} bytes')
         return my_func
+
     return wrapper
 
 
+@cache
 @memory_usage_decorator
 def fetch_url(url, first_n=100):
     """Fetch a given url"""
@@ -45,7 +47,17 @@ def fetch_url(url, first_n=100):
 
 
 fetch_url('https://google.com')
+fetch_url('https://google.com')
+fetch_url('https://google.com')
+fetch_url('https://github.com')
+fetch_url('https://github.com')
 fetch_url('https://github.com')
 fetch_url('https://reyestr.court.gov.ua')
+fetch_url('https://reyestr.court.gov.ua')
+fetch_url('https://reyestr.court.gov.ua')
+fetch_url('https://ua.tribuna.com')
+fetch_url('https://ua.tribuna.com')
+fetch_url('https://ua.tribuna.com')
+fetch_url('https://ua.tribuna.com')
 fetch_url('https://ua.tribuna.com')
 fetch_url('https://ithillel.com')
