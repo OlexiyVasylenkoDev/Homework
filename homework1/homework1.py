@@ -5,7 +5,7 @@ import os
 from collections import OrderedDict
 
 
-def my_cache(f, max_limit=2):
+def lfu(f, max_limit=2):
     cache = {}
     @functools.wraps(f)
     def deco(*args, **kwargs):
@@ -33,7 +33,7 @@ def memory_usage_decorator(func):
     return wrapper
 
 
-@my_cache
+@lfu
 @memory_usage_decorator
 def fetch_url(url, first_n=100):
     """Fetch a given url"""
