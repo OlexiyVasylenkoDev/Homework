@@ -28,6 +28,7 @@ def lfu(max_limit=2):
 def memory_usage_decorator(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+<<<<<<< HEAD
         process = psutil.Process()
         memory_before = process.memory_info().rss
         my_func = func(*args, **kwargs)
@@ -38,6 +39,16 @@ def memory_usage_decorator(func):
 
 
 @lfu()
+=======
+        process = psutil.Process(os.getpid())
+        memory_before = process.memory_info()[0]
+        my_func = func(*args, **kwargs)
+        print(f'This function takes {process.memory_info()[0] - memory_before} bytes')
+        return my_func
+    return wrapper
+
+
+>>>>>>> b207d9c (Add homework 1)
 @memory_usage_decorator
 def fetch_url(url, first_n=100):
     """Fetch a given url"""
@@ -45,6 +56,7 @@ def fetch_url(url, first_n=100):
     return res.content[:first_n] if first_n else res.content
 
 
+<<<<<<< HEAD
 if __name__ == '__main__':
     print(fetch_url('https://stackoverflow.com'))
     print(fetch_url('https://google.com'))
@@ -62,3 +74,10 @@ if __name__ == '__main__':
     print(fetch_url('https://ua.tribuna.com'))
     print(fetch_url('https://ua.tribuna.com'))
     print(fetch_url('https://ithillel.com'))
+=======
+fetch_url('https://google.com')
+fetch_url('https://github.com')
+fetch_url('https://reyestr.court.gov.ua')
+fetch_url('https://ua.tribuna.com')
+fetch_url('https://ithillel.com')
+>>>>>>> b207d9c (Add homework 1)
