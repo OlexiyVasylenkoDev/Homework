@@ -11,20 +11,21 @@ app = Flask(__name__)
 @app.route("/password")
 def generate_password(min_limit=10, max_limit=25):
     password_length = random.randint(min_limit, max_limit)
-    password = ''
+    password = []
     upper = string.ascii_uppercase
     lower = string.ascii_lowercase
     digits = string.digits
     punctuation = string.punctuation.replace('<', '')
     while len(password) < password_length:
         result = [random.choice(upper), random.choice(lower), random.choice(digits), random.choice(punctuation)]
-        random.shuffle(result)
         for i in result:
             if len(password) < password_length:
-                password = password + i
+                password.append(i)
             else:
                 break
-    return f'<center><p><h1>Your password:</h1>{password}<p></center>'
+    random.shuffle(password)
+    final_password = ''.join(password)
+    return f'<center><p><h1>Your password:</h1>{final_password}<p></center>'
 
 
 @app.route('/average')
