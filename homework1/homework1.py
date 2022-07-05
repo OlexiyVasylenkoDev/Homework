@@ -1,7 +1,6 @@
 import requests
 import psutil
 import functools
-import os
 from collections import OrderedDict
 
 
@@ -10,16 +9,16 @@ def lfu(f, max_limit=2):
 
     @functools.wraps(f)
     def deco(*args, **kwargs):
-        if args[0] in cache.keys():
-            cache[args[0]] += 1
+        cache_key = (args, tuple(kwargs.items()))
+        if cache_key in cache.keys():
+            cache[cache_key] += 1
         else:
-            cache.update({args[0]: 1})
-        f(*args, **kwargs)
+            cache.update({cache_key: 1})
+        my_func = f(*args, **kwargs)
         result = OrderedDict(sorted(cache.items(), key=lambda x: x[1]))
         while len(result) > max_limit:
             result.popitem(last=False)
-        print(result)
-        return result
+        return my_func, result
 
     return deco
 
@@ -45,19 +44,19 @@ def fetch_url(url, first_n=100):
 
 
 if __name__ == '__main__':
-    fetch_url('https://stackoverflow.com')
-    fetch_url('https://google.com')
-    fetch_url('https://google.com')
-    fetch_url('https://google.com')
-    fetch_url('https://github.com')
-    fetch_url('https://github.com')
-    fetch_url('https://github.com')
-    fetch_url('https://reyestr.court.gov.ua')
-    fetch_url('https://reyestr.court.gov.ua')
-    fetch_url('https://reyestr.court.gov.ua')
-    fetch_url('https://ua.tribuna.com')
-    fetch_url('https://ua.tribuna.com')
-    fetch_url('https://ua.tribuna.com')
-    fetch_url('https://ua.tribuna.com')
-    fetch_url('https://ua.tribuna.com')
-    fetch_url('https://ithillel.com')
+    print(fetch_url('https://stackoverflow.com'))
+    print(fetch_url('https://google.com'))
+    print(fetch_url('https://google.com'))
+    print(fetch_url('https://google.com'))
+    print(fetch_url('https://github.com'))
+    print(fetch_url('https://github.com'))
+    print(fetch_url('https://github.com'))
+    print(fetch_url('https://reyestr.court.gov.ua'))
+    print(fetch_url('https://reyestr.court.gov.ua'))
+    print(fetch_url('https://reyestr.court.gov.ua'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ithillel.com'))
