@@ -7,6 +7,7 @@ from collections import OrderedDict
 
 def lfu(f, max_limit=2):
     cache = {}
+
     @functools.wraps(f)
     def deco(*args, **kwargs):
         if args[0] in cache.keys():
@@ -19,6 +20,7 @@ def lfu(f, max_limit=2):
             result.popitem(last=False)
         print(result)
         return result
+
     return deco
 
 
@@ -30,6 +32,7 @@ def memory_usage_decorator(func):
         my_func = func(*args, **kwargs)
         print(f'This function takes {process.memory_info()[0] - memory_before} bytes')
         return my_func
+
     return wrapper
 
 
@@ -41,19 +44,20 @@ def fetch_url(url, first_n=100):
     return res.content[:first_n] if first_n else res.content
 
 
-fetch_url('https://stackoverflow.com')
-fetch_url('https://google.com')
-fetch_url('https://google.com')
-fetch_url('https://google.com')
-fetch_url('https://github.com')
-fetch_url('https://github.com')
-fetch_url('https://github.com')
-fetch_url('https://reyestr.court.gov.ua')
-fetch_url('https://reyestr.court.gov.ua')
-fetch_url('https://reyestr.court.gov.ua')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ithillel.com')
+if __name__ == '__main__':
+    fetch_url('https://stackoverflow.com')
+    fetch_url('https://google.com')
+    fetch_url('https://google.com')
+    fetch_url('https://google.com')
+    fetch_url('https://github.com')
+    fetch_url('https://github.com')
+    fetch_url('https://github.com')
+    fetch_url('https://reyestr.court.gov.ua')
+    fetch_url('https://reyestr.court.gov.ua')
+    fetch_url('https://reyestr.court.gov.ua')
+    fetch_url('https://ua.tribuna.com')
+    fetch_url('https://ua.tribuna.com')
+    fetch_url('https://ua.tribuna.com')
+    fetch_url('https://ua.tribuna.com')
+    fetch_url('https://ua.tribuna.com')
+    fetch_url('https://ithillel.com')
