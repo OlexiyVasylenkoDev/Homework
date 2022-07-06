@@ -31,7 +31,7 @@ def generate_password(min_limit=10, max_limit=25):
 def calculate_average():
     students_heights = []
     students_weights = []
-    with open('hw.csv', 'r') as readfile:
+    with open('homework2/hw.csv', 'r') as readfile:
         reader = csv.reader(readfile, delimiter=',')
         for row in reader:
             if row[0].isdigit():
