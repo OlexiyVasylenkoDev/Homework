@@ -1,7 +1,6 @@
 import requests
 import psutil
 import functools
-import os
 from collections import OrderedDict
 
 
@@ -34,10 +33,11 @@ def memory_usage_decorator(func):
         my_func = func(*args, **kwargs)
         print(f'This function takes {process.memory_info()[0] - memory_before} bytes')
         return my_func
+
     return wrapper
 
 
-@my_cache
+@lfu()
 @memory_usage_decorator
 def fetch_url(url, first_n=100):
     """Fetch a given url"""
@@ -45,19 +45,20 @@ def fetch_url(url, first_n=100):
     return res.content[:first_n] if first_n else res.content
 
 
-fetch_url('https://stackoverflow.com')
-fetch_url('https://google.com')
-fetch_url('https://google.com')
-fetch_url('https://google.com')
-fetch_url('https://github.com')
-fetch_url('https://github.com')
-fetch_url('https://github.com')
-fetch_url('https://reyestr.court.gov.ua')
-fetch_url('https://reyestr.court.gov.ua')
-fetch_url('https://reyestr.court.gov.ua')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ua.tribuna.com')
-fetch_url('https://ithillel.com')
+if __name__ == '__main__':
+    print(fetch_url('https://stackoverflow.com'))
+    print(fetch_url('https://google.com'))
+    print(fetch_url('https://google.com'))
+    print(fetch_url('https://google.com'))
+    print(fetch_url('https://github.com'))
+    print(fetch_url('https://github.com'))
+    print(fetch_url('https://github.com'))
+    print(fetch_url('https://reyestr.court.gov.ua'))
+    print(fetch_url('https://reyestr.court.gov.ua'))
+    print(fetch_url('https://reyestr.court.gov.ua'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ua.tribuna.com'))
+    print(fetch_url('https://ithillel.com'))
