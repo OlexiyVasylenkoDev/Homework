@@ -98,5 +98,5 @@ def get_bitcoin_value(currency, count):
     else:
         return f'<center><p>The price of one bitcoin is {currency_rate} {currency_symbol}</p></center>'
 
-
-app.run(port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
