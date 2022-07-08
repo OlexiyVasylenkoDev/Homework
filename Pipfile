@@ -9,6 +9,7 @@ faker = "*"
 pandas = "*"
 requests = "*"
 psutil = "*"
+webargs = "*"
 
 [dev-packages]
 
