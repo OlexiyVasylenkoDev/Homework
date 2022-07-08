@@ -4,23 +4,25 @@ import functools
 from collections import OrderedDict
 
 
-def lfu(f, max_limit=2):
-    cache = {}
-
-    @functools.wraps(f)
-    def deco(*args, **kwargs):
-        cache_key = (args, tuple(kwargs.items()))
-        if cache_key in cache.keys():
-            cache[cache_key] += 1
-        else:
-            cache.update({cache_key: 1})
-        my_func = f(*args, **kwargs)
-        result = OrderedDict(sorted(cache.items(), key=lambda x: x[1]))
-        while len(result) > max_limit:
-            result.popitem(last=False)
-        return my_func, result
-
-    return deco
+def lfu(max_limit=2):
+    def internal(f):
+        cache = {}
+        @functools.wraps(f)
+        def deco(*args, **kwargs):
+            cache_key = (args, tuple(kwargs.items()))
+            if cache_key in cache:
+                cache[cache_key]["counter"] += 1
+                return cache[cache_key]["result"]
+            if len(cache) >= max_limit:
+                del cache[min(cache, key=lambda x: cache[x]["counter"])]
+            cache[cache_key] = {}
+            result = f(*args, **kwargs)
+            cache[cache_key]["counter"] = 1
+            cache[cache_key]["result"] = result
+            print(cache)
+            return result
+        return deco
+    return internal
 
 
 def memory_usage_decorator(func):
@@ -35,7 +37,7 @@ def memory_usage_decorator(func):
     return wrapper
 
 
-@lfu
+@lfu()
 @memory_usage_decorator
 def fetch_url(url, first_n=100):
     """Fetch a given url"""
