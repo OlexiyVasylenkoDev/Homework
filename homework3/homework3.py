@@ -79,16 +79,15 @@ def generate_students(count):
 )
 def get_bitcoin_value(currency, count):
     currency = currency.upper()
-    url = requests.get('https://bitpay.com/api/rates/').json()
+    url = requests.get(f'https://bitpay.com/api/rates/{currency}').json()
     url_for_symbols = requests.get('https://bitpay.com/currencies').json()
 
-    available_currencies = [x['code'] for x in url]
+    available_currencies = [x['code'] for x in url_for_symbols['data']]
     if currency not in available_currencies:
         abort(400, messages='Not a valid currency!')
 
-    for row in url:
-        if currency == row['code']:
-            currency_rate = int(row['rate'])
+    if currency == url['code']:
+        currency_rate = int(url['rate'])
     for row in url_for_symbols['data']:
         if currency == row['code']:
             currency_symbol = row['symbol']
