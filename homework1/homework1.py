@@ -28,10 +28,10 @@ def lfu(max_limit=2):
 def memory_usage_decorator(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        process = psutil.Process(os.getpid())
-        memory_before = process.memory_info()[0]
+        process = psutil.Process()
+        memory_before = process.memory_info().rss
         my_func = func(*args, **kwargs)
-        print(f'This function takes {process.memory_info()[0] - memory_before} bytes')
+        print(f'This function takes {process.memory_info().rss - memory_before} bytes')
         return my_func
 
     return wrapper
