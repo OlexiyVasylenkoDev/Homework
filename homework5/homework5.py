@@ -1,13 +1,9 @@
 import math
-import re
-import string
+from http import HTTPStatus
 
 from flask import Flask, jsonify
-
-from http import HTTPStatus
 from webargs import fields
 from webargs.flaskparser import abort, use_kwargs
-
 
 from database_handler import execute_query
 
@@ -19,8 +15,7 @@ class Circle:
         self.radius = radius
 
     def contains(self, point):
-        self.point = point
-        return math.sqrt(math.pow((self.x-self.point.x), 2) + math.pow((self.y-self.point.y), 2)) <= self.radius
+        return math.sqrt(math.pow((self.x-point.x), 2) + math.pow((self.y-point.y), 2)) <= self.radius
 
 
 class Point:
@@ -29,13 +24,7 @@ class Point:
         self.y = y
 
 
-circle = Circle(10, 10, 6.8)
-point1 = Point(4, 7)
-point2 = Point(10, 10)
-point3 = Point(140, 72)
-print(circle.contains(point1))
-print(circle.contains(point2))
-print(circle.contains(point3))
+
 
 app = Flask(__name__)
 
@@ -107,4 +96,11 @@ def stats_by_city(genre):
 
 
 if __name__ == '__main__':
+    circle = Circle(10, 10, 6.8)
+    point1 = Point(4, 7)
+    point2 = Point(10, 10)
+    point3 = Point(140, 72)
+    print(circle.contains(point1))
+    print(circle.contains(point2))
+    print(circle.contains(point3))
     app.run(port=5001, debug=True)
