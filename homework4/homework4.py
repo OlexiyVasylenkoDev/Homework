@@ -46,12 +46,11 @@ def error_handler(error):
     location="query"
 )
 def order_price(country):
-    sales = execute_query("SELECT invoices.BillingCountry, SUM(invoice_items.UnitPrice * invoice_items.Quantity) "
-                          "FROM invoices "
-                          "JOIN invoice_items "
-                          "ON invoice_items.InvoiceId = invoices.InvoiceId "
-                          "GROUP BY invoices.BillingCountry")
-    available_countries = [country[0] for country in sales]
+    query = "SELECT invoices.BillingCountry, SUM(invoice_items.UnitPrice * invoice_items.Quantity) " \
+            "FROM invoices " \
+            "JOIN invoice_items " \
+            "ON invoice_items.InvoiceId = invoices.InvoiceId "
+    sales = execute_query(query + "GROUP BY invoices.BillingCountry")
     result = {}
     if country is None:
         for country in sales:
@@ -60,14 +59,10 @@ def order_price(country):
                                               "FROM invoice_items;")[0][0]})
 
     else:
-        if country not in available_countries:
+        sales = execute_query(query + f"WHERE BillingCountry == '{country}';")
+        result.update({sales[0][0]: sales[0][1]})
+        if None in result.keys():
             abort(400, messages='There is no such country in invoices!')
-        else:
-            sales = execute_query(
-                f"SELECT BillingCountry, SUM(Total) "
-                f"FROM invoices "
-                f"WHERE BillingCountry == '{country}';")
-            result.update({sales[0][0]: sales[0][1]})
 
     df = pd.DataFrame(data=list(result.items()), columns=['Country', 'Sales']).to_html()
     return df
