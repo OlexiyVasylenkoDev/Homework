@@ -34,4 +34,8 @@ class Color_Changer:
 if __name__ == '__main__':
     with Color_Changer('GrEeN'):
         print('Some colorized text')
+    with Color_Changer('yeLLOW'):
+        print('Some colorized text')
+    with Color_Changer('WHITE'):
+        print('Some colorized text')
     print('Default color text')
