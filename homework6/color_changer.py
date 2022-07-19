@@ -30,6 +30,7 @@ class Color_Changer:
     def __exit__(self, exc_type, exc_val, exc_tb):
         print(Fore.RESET, end='')
 
+
 if __name__ == '__main__':
     with Color_Changer('GrEeN'):
         print('Some colorized text')
