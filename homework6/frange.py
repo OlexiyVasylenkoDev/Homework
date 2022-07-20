@@ -1,5 +1,5 @@
 class frange:
-    def __init__(self, *args, start=0, end=0, step: float = 1):
+    def __init__(self, *args, start=0, end=0, step: float = 1.0):
         if len(args) == 1:
             self._start, self._step = start, step
             self._end = args[0]

@@ -17,11 +17,11 @@ class Color_Changer:
         self.foreground_color = foreground_color
 
     @classmethod
-    def print_colors(cls, color):
+    def is_available_color(cls, color):
         return color in cls.my_colors.keys()
 
     def __enter__(self):
-        if self.print_colors(self.foreground_color.lower()):
+        if self.is_available_color(self.foreground_color.lower()):
             print(self.my_colors[self.foreground_color.lower()], end='')
             return None
         else:
